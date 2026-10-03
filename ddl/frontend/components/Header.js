@@ -24,6 +24,15 @@ export default function Header() {
             </Link>
           )}
 
+          {isAuthenticated && user.is_admin && (
+            <Link
+              href="/admin/prescriptions"
+              className="font-mono text-xs uppercase tracking-[0.08em] text-ink hover:text-muted"
+            >
+              Admin
+            </Link>
+          )}
+
           {isAuthenticated && (
             <Link
               href="/cart"

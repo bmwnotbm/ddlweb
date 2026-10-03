@@ -3,6 +3,12 @@ import datetime
 from sqlalchemy.orm import Session
 
 from app import models
+from app.security import hash_password
+
+# บัญชี admin ตั้งต้นสำหรับ dev — เปลี่ยนรหัสผ่านทันทีถ้าจะใช้งานจริง/ขึ้น production
+ADMIN_USERNAME = "admin"
+ADMIN_EMAIL = "admin@example.com"
+ADMIN_PASSWORD = "12345678"
 
 CATEGORIES = [
     "Pain Relief",
@@ -30,8 +36,27 @@ MEDICINES = [
 ]
 
 
+def seed_admin_user(db: Session) -> None:
+    """สร้างบัญชี admin ตั้งต้นถ้ายังไม่มี — เรียกแยกจาก seed_initial_data ได้"""
+    if db.query(models.User).filter(models.User.username == ADMIN_USERNAME).first() is not None:
+        return  # มี admin อยู่แล้ว ไม่ต้องสร้างซ้ำ
+
+    admin = models.User(
+        username=ADMIN_USERNAME,
+        email=ADMIN_EMAIL,
+        full_name="Administrator",
+        hashed_password=hash_password(ADMIN_PASSWORD),
+        is_active=True,
+        is_admin=True,
+    )
+    db.add(admin)
+    db.commit()
+
+
 def seed_initial_data(db: Session) -> None:
     """ใส่ข้อมูล categories/medicines ตั้งต้น — ทำแค่ครั้งเดียวถ้าตารางยังว่างอยู่"""
+    seed_admin_user(db)
+
     if db.query(models.Category).first() is not None:
         return  # เคย seed ไปแล้ว ไม่ต้องทำซ้ำ
 

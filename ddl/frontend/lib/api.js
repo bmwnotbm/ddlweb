@@ -46,7 +46,10 @@ export const api = {
   listOrders: (token) => request("/orders", { token }),
   submitPrescription: (formData, token) =>
     request("/prescriptions", { method: "POST", body: formData, token, isFormData: true }),
-  listPrescriptions: (token) => request("/prescriptions", { token }),
+  listPrescriptions: (token, all = false) =>
+    request(all ? "/prescriptions?all=true" : "/prescriptions", { token }),
+  reviewPrescription: (id, status, token) =>
+    request(`/prescriptions/${id}/review`, { method: "PUT", body: { status }, token }),
 };
 
 export { API_URL };

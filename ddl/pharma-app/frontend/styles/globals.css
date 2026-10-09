@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Inter", "Sarabun", system-ui, sans-serif;
+  background-color: #F1F7F3;
+  color: #0F3D2A;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: #0F3D2A;
+  color: #F1F7F3;
+}
+
+/* focus ring แบบ minimal ใช้เส้นแทน glow */
+:focus-visible {
+  outline: 1.5px solid #1E8E5A;
+  outline-offset: 2px;
+}

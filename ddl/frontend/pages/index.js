@@ -31,6 +31,11 @@ export default function Home() {
     router.replace({ pathname: "/", query }, undefined, { shallow: true });
   };
 
+  // ลิงก์จากแชทบอท (/?q=ชื่อยา) -> ใส่คำค้นให้อัตโนมัติ
+  useEffect(() => {
+    if (typeof router.query.q === "string") setSearch(router.query.q);
+  }, [router.query.q]);
+
   // must be signed in to view the catalog — bounce to /login otherwise
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {

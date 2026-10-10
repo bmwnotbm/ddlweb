@@ -21,6 +21,14 @@ class Settings(BaseSettings):
     upload_dir: str = "uploads"
     max_upload_size_mb: int = 5
 
+    # แชทบอท — โมเดลภาษารันเองบนเครื่องผ่าน Ollama (ไม่ส่งข้อมูลออกนอกเซิร์ฟเวอร์)
+    chat_backend: str = "ollama"  # "ollama" = ใช้โมเดล | "retrieval" = ค้นข้อมูลอย่างเดียว ไม่ใช้โมเดล
+    ollama_url: str = "http://host.docker.internal:11434"
+    ollama_model: str = "qwen2.5:3b"
+    ollama_timeout_seconds: int = 180  # โมเดลบน CPU ตอบช้า
+    chat_rate_limit: int = 20  # จำนวนข้อความสูงสุดต่อผู้ใช้ (กันเครื่องถูกใช้จนอืด)
+    chat_rate_window_seconds: int = 600  # ภายในกี่วินาที
+
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 

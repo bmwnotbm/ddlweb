@@ -64,6 +64,7 @@ export const api = {
   listUsers: (token, page = 1, pageSize = 100) =>
     request(`/users?page=${page}&page_size=${pageSize}`, { token }),
   cancelOrder: (orderId, token) => request(`/orders/${orderId}`, { method: "DELETE", token }),
+  chat: (messages, token) => request("/chat", { method: "POST", body: { messages }, token }),
   checkInteractions: (medicineIds) =>
     request("/medicines/check-interactions", {
       method: "POST",

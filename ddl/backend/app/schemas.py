@@ -1,5 +1,5 @@
 import datetime
-from typing import Optional
+from typing import Literal, Optional
 
 from pydantic import BaseModel, EmailStr, Field, ConfigDict
 
@@ -204,3 +204,25 @@ class PrescriptionResponse(BaseModel):
 
 class PrescriptionReviewRequest(BaseModel):
     status: str = Field(pattern="^(Verified|Rejected)$")
+
+
+# ----- Chatbot -----
+class ChatMessage(BaseModel):
+    role: Literal["user", "assistant"]
+    content: str = Field(min_length=1, max_length=1000)
+
+
+class ChatRequest(BaseModel):
+    messages: list[ChatMessage] = Field(min_length=1, max_length=30)
+
+
+class ChatMedicine(BaseModel):
+    id: int
+    name: str
+    name_th: Optional[str] = None
+
+
+class ChatResponse(BaseModel):
+    reply: str
+    mode: Literal["llm", "retrieval", "emergency"] = "llm"  # llm = โมเดลตอบ | retrieval = ตอบจากข้อมูลตรง ๆ
+    medicines: list[ChatMedicine] = []  # ยาในร้านที่ถูกเอ่ยถึง ให้ frontend ทำลิงก์ไปดูในแคตตาล็อก

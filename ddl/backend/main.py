@@ -16,7 +16,7 @@ from app.config import settings
 from app.database import Base, SessionLocal, engine, get_db
 from app.deps import require_admin
 from app.drug_interactions import find_interactions
-from app.routers import auth, orders, prescriptions, users
+from app.routers import auth, chat, orders, prescriptions, users
 from app.seed import seed_initial_data
 
 # สร้างตารางอัตโนมัติตอน startup (โปรเจกต์เล็ก/เดโม; งานจริงควรใช้ Alembic migration)
@@ -44,6 +44,7 @@ app.include_router(auth.router)
 app.include_router(users.router)
 app.include_router(orders.router)
 app.include_router(prescriptions.router)
+app.include_router(chat.router)
 
 # เสิร์ฟไฟล์ที่อัปโหลด (เช่น รูปใบสั่งยา) ผ่าน URL /uploads/...
 app.mount("/uploads", StaticFiles(directory=settings.upload_dir), name="uploads")
